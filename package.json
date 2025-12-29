@@ -1,0 +1,32 @@
+{
+  "name": "fincs-ops-frontend",
+  "version": "0.1.0",
+  "private": true,
+  "description": "",
+  "license": "ISC",
+  "author": "",
+  "type": "module",
+  "main": "next.config.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "dev": "next dev --turbo",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "next": "14.1.0",
+    "react": "18.2.0",
+    "react-dom": "18.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "20.10.5",
+    "@types/react": "18.2.43",
+    "@types/react-dom": "18.2.17",
+    "typescript": "5.3.3",
+    "eslint": "8.55.0",
+    "eslint-config-next": "14.1.0"
+  }
+}

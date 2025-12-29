@@ -18,10 +18,10 @@ export default async function SettingsPage() {
     <main className="page">
       <div className="page-header">
         <div>
-          <h1>Settings</h1>
-          <p className="lede">Editable, non-secret configuration. Credentials stay on the server.</p>
+          <h1>設定</h1>
+          <p className="lede">秘匿情報を除く設定を編集します。認証情報はサーバー側に保持します。</p>
         </div>
-        <Badge label={settings.dry_run ? 'Dry-run default' : 'Live mode'} tone={settings.dry_run ? 'muted' : 'accent'} />
+        <Badge label={settings.dry_run ? 'デフォルト: ドライラン' : 'デフォルト: 実売買'} tone={settings.dry_run ? 'muted' : 'accent'} />
       </div>
 
       <SettingsForm initial={settings} />

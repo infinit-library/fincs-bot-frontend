@@ -29,7 +29,11 @@ export const getSettings = () => fetchJson<Settings>('/settings');
 
 export const postBotStart = () => fetchJson<void>('/bot/start', { method: 'POST' });
 export const postBotStop = () => fetchJson<void>('/bot/stop', { method: 'POST' });
-export const postRunOnce = () => fetchJson<void>('/bot/run-once', { method: 'POST' });
+export const postRunOnce = () =>
+  fetchJson<{ status: string; result?: { processed: number; submitted: number; failed: unknown[]; skipped: unknown[] } }>(
+    '/bot/run-once',
+    { method: 'POST' }
+  );
 
 export const updateDryRun = (dry_run: boolean) =>
   fetchJson<Settings>('/settings', { method: 'POST', body: JSON.stringify({ dry_run }) });

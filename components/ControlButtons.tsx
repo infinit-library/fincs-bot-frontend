@@ -10,19 +10,29 @@ interface Props {
 }
 
 export default function ControlButtons({ running, dryRun, pollInterval }: Props) {
+  const [localRunning, setLocalRunning] = useState(running);
   const [localDryRun, setLocalDryRun] = useState(dryRun);
   const [message, setMessage] = useState('');
   const [isPending, startTransition] = useTransition();
 
-  const runAction = (label: string, action: () => Promise<unknown>) => {
+  const runAction = (label: string, action: () => Promise<any>) => {
     startTransition(async () => {
       setMessage('');
       try {
-        await action();
-        setMessage(`${label} sent`);
+        const result = await action();
+        if (result && typeof result === 'object' && 'status' in result && 'result' in result) {
+          const r: any = (result as any).result;
+          const failedCount = Array.isArray(r?.failed) ? r.failed.length : 0;
+          const skippedCount = Array.isArray(r?.skipped) ? r.skipped.length : 0;
+          setMessage(
+            `1回実行: 対象 ${r?.processed ?? 0} 件中 成功 ${r?.submitted ?? 0} 件 / 失敗 ${failedCount} 件 / スキップ ${skippedCount} 件`
+          );
+        } else {
+          setMessage(`${label} を送信しました`);
+        }
       } catch (err) {
         const detail = err instanceof Error ? err.message : 'unknown error';
-        setMessage(`Error: ${detail}`);
+        setMessage(`エラー: ${detail}`);
       }
     });
   };
@@ -32,24 +42,34 @@ export default function ControlButtons({ running, dryRun, pollInterval }: Props)
       <div className="controls">
         <button
           className="button primary"
-          disabled={isPending || running}
-          onClick={() => runAction('Start', postBotStart)}
+          disabled={isPending || localRunning}
+          onClick={() =>
+            runAction('Start', async () => {
+              await postBotStart();
+              setLocalRunning(true);
+            })
+          }
         >
-          Start bot
+          ボット開始
         </button>
         <button
           className="button warn"
-          disabled={isPending || !running}
-          onClick={() => runAction('Stop', postBotStop)}
+          disabled={isPending || !localRunning}
+          onClick={() =>
+            runAction('Stop', async () => {
+              await postBotStop();
+              setLocalRunning(false);
+            })
+          }
         >
-          Stop bot
+          ボット停止
         </button>
         <button
           className="button ghost"
           disabled={isPending}
           onClick={() => runAction('Manual poll', postRunOnce)}
         >
-          Run once
+          1回実行
         </button>
         <button
           className="button"
@@ -61,11 +81,15 @@ export default function ControlButtons({ running, dryRun, pollInterval }: Props)
             })
           }
         >
-          {localDryRun ? 'Disable dry-run' : 'Enable dry-run'}
+          {localDryRun ? 'ドライラン停止' : 'ドライラン開始'}
         </button>
       </div>
       <p className="control-foot">
-        Poll interval: {pollInterval}s. {message || 'Commands call the FastAPI endpoints directly.'}
+        ポーリング間隔: {pollInterval}秒.{' '}
+        {message ||
+          (localRunning
+            ? '稼働中はリアルタイム価格とスリッページガードを使用。ドライランは発注をシミュレートします。'
+            : '停止中: 開始すると最新スクレイプ分から処理を再開します。')}
       </p>
     </div>
   );

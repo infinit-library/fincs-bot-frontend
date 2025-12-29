@@ -21,7 +21,7 @@ export default function StatusCard({ title, value, hint, tone = 'neutral', meta 
       {meta && <div className="tag">{meta}</div>}
       {tone !== 'neutral' && !meta && (
         <div className="tag">
-          <Badge label={tone === 'accent' ? 'Healthy' : tone === 'warn' ? 'Attention' : 'Info'} tone={badgeTone as any} />
+          <Badge label={tone === 'accent' ? '正常' : tone === 'warn' ? '注意' : '情報'} tone={badgeTone as any} />
         </div>
       )}
     </div>

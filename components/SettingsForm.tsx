@@ -31,10 +31,10 @@ export default function SettingsForm({ initial }: { initial: Settings }) {
           dedup_window: Number(form.dedup_window),
           dry_run: form.dry_run,
         });
-        setMessage('Settings saved');
+        setMessage('設定を保存しました');
       } catch (err) {
         const detail = err instanceof Error ? err.message : 'unknown error';
-        setMessage(`Error: ${detail}`);
+        setMessage(`エラー: ${detail}`);
       }
     });
   };
@@ -43,7 +43,7 @@ export default function SettingsForm({ initial }: { initial: Settings }) {
     <form className="section" onSubmit={onSubmit}>
       <div className="form-grid">
         <label className="field">
-          Poll interval (seconds)
+          ポーリング間隔（秒）
           <input
             type="number"
             min={1}
@@ -52,7 +52,7 @@ export default function SettingsForm({ initial }: { initial: Settings }) {
           />
         </label>
         <label className="field">
-          Allowed pairs (comma separated)
+          許可する通貨ペア（カンマ区切り）
           <input
             type="text"
             value={form.allowedPairs}
@@ -60,7 +60,7 @@ export default function SettingsForm({ initial }: { initial: Settings }) {
           />
         </label>
         <label className="field">
-          Max lot cap
+          最大ロット比率
           <input
             type="number"
             step="0.01"
@@ -70,7 +70,7 @@ export default function SettingsForm({ initial }: { initial: Settings }) {
           />
         </label>
         <label className="field">
-          Dedup window (seconds)
+          デデュープ幅（秒）
           <input
             type="number"
             min={0}
@@ -79,7 +79,7 @@ export default function SettingsForm({ initial }: { initial: Settings }) {
           />
         </label>
         <label className="field">
-          Dry-run default
+          デフォルトのドライラン
           <div className="controls">
             <button
               className={`button ${form.dry_run ? 'primary' : 'ghost'}`}
@@ -103,9 +103,9 @@ export default function SettingsForm({ initial }: { initial: Settings }) {
 
       <div className="controls">
         <button className="button primary" type="submit" disabled={isPending}>
-          Save settings
+          設定を保存
         </button>
-        <span className="note">Changes call the FastAPI /settings endpoint.</span>
+        <span className="note">変更は FastAPI の /settings に保存されます。</span>
       </div>
 
       {message && <p className="note">{message}</p>}

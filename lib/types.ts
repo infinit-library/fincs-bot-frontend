@@ -41,4 +41,9 @@ export type Settings = {
   max_lot_cap: number;
   dedup_window: number;
   dry_run: boolean;
+  running?: boolean;
+  conflict_policy?: 'skip' | 'close_then_open';
+  max_slippage?: number;
+  max_open_positions?: number;
+  max_total_units?: number;
 };

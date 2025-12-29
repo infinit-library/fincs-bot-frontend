@@ -10,28 +10,28 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 const navItems = [
-  { href: '/dashboard', label: 'Dashboard', desc: 'Status + controls' },
-  { href: '/signals', label: 'Signals', desc: 'Parsed trades' },
-  { href: '/actions', label: 'Actions', desc: 'Execution queue' },
-  { href: '/raw', label: 'Raw', desc: 'Channel feed' },
-  { href: '/settings', label: 'Settings', desc: 'Safe config' },
+  { href: '/dashboard', label: 'ダッシュボード', desc: '稼働状況と操作' },
+  { href: '/signals', label: 'シグナル', desc: '解析済みトレード' },
+  { href: '/actions', label: 'アクション', desc: '実行キュー' },
+  { href: '/raw', label: 'RAW', desc: 'チャンネル取得' },
+  { href: '/settings', label: '設定', desc: '安全な構成' },
 ];
 
 export const metadata: Metadata = {
-  title: 'Fincs Ops Console',
-  description: 'Control tower for the FINCS automated trading bot',
+  title: 'FINCS 管制コンソール',
+  description: 'FINCS 自動売買ボットの管制塔',
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en" className={spaceGrotesk.variable}>
+    <html lang="ja" className={spaceGrotesk.variable}>
       <body>
         <div className="shell">
           <header className="topbar">
             <div className="brand">
               <span className="dot" aria-hidden />
               <span>FINCS Ops</span>
-              <span className="sub">control tower</span>
+              <span className="sub">管制塔</span>
             </div>
             <nav className="nav">
               {navItems.map((item) => (

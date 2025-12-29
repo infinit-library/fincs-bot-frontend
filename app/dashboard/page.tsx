@@ -15,7 +15,7 @@ const fallbackStatus: Status = {
   last_new_segment: null,
   poll_interval: 15,
   dry_run: true,
-  latest_signal: 'USDJPY LONG 0.20',
+  latest_signal: 'USDJPY ロング 0.20',
   latency_ms: 820,
   last_error: null,
 };
@@ -25,30 +25,30 @@ export default async function DashboardPage() {
 
   const cards = [
     {
-      title: 'Bot',
-      value: status.running ? 'RUNNING' : 'STOPPED',
+      title: 'ボット',
+      value: status.running ? '稼働中' : '停止中',
       tone: status.running ? 'accent' : 'warn',
-      hint: status.last_error ?? 'Stable',
+      hint: status.last_error ?? '安定稼働',
     },
     {
-      title: 'Last scrape',
+      title: '最新スクレイプ',
       value: formatDate(status.last_scrape),
-      hint: status.last_new_segment ? `Latest segment: ${status.last_new_segment}` : 'Waiting for next tick',
+      hint: status.last_new_segment ? `最新セグメント: ${status.last_new_segment}` : '次の取得を待機',
     },
     {
-      title: 'Latency',
+      title: 'レイテンシ',
       value: status.latency_ms ? `${status.latency_ms} ms` : '-',
-      hint: 'scrape -> parse -> action',
+      hint: 'スクレイプ → 解析 → 実行',
     },
     {
-      title: 'Poll interval',
+      title: 'ポーリング間隔',
       value: `${status.poll_interval}s`,
-      hint: status.dry_run ? 'Dry-run enabled' : 'Live actions enabled',
+      hint: status.dry_run ? 'ドライラン有効' : '実売買有効',
     },
     {
-      title: 'Latest signal',
+      title: '最新シグナル',
       value: status.latest_signal ?? '-',
-      hint: 'human-readable summary',
+      hint: '要約表示',
     },
   ];
 
@@ -56,10 +56,10 @@ export default async function DashboardPage() {
     <main className="page">
       <div className="page-header">
         <div>
-          <h1>Ops Dashboard</h1>
-          <p className="lede">Visibility + control for the FINCS trading bot.</p>
+          <h1>運用ダッシュボード</h1>
+          <p className="lede">FINCS 自動売買ボットの稼働状況と操作。</p>
         </div>
-        <Badge tone={status.running ? 'accent' : 'warn'} label={status.running ? 'Live monitoring' : 'Stopped'} />
+        <Badge tone={status.running ? 'accent' : 'warn'} label={status.running ? 'ライブ監視中' : '停止中'} />
       </div>
 
       <div className="card-grid">
@@ -69,13 +69,18 @@ export default async function DashboardPage() {
       </div>
 
       <section className="section">
-        <div className="section-title">Bot controls</div>
+        <div className="section-title">ボット操作</div>
         <ControlButtons running={status.running} dryRun={status.dry_run} pollInterval={status.poll_interval} />
-        <p className="control-foot">Latest signal: {status.latest_signal ?? 'Waiting for stream'}.</p>
+        <p className="control-foot">
+          最新シグナル: {status.latest_signal ?? '受信待ち'}.<br />
+          <strong>開始</strong>: ボットを稼働状態にしスケジューラを起動。 <strong>停止</strong>: 実行を一時停止。
+          <strong>1回実行</strong>: 直近バッチを即時実行。 <strong>ドライラン</strong>: OANDAへ送信するが約定はしない。
+        </p>
+        {status.last_error && <p className="control-foot">直近のエラー: {status.last_error}</p>}
       </section>
 
       {status.last_error && (
-        <div className="alert">Last error: {status.last_error}</div>
+        <div className="alert">直近のエラー: {status.last_error}</div>
       )}
     </main>
   );

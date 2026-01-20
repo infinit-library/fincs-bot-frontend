@@ -1,32 +1,5 @@
 ﻿node_modules
 .next
 out
-.env.local
-.env.production
-npm-debug.log*
-yarn.lock
-pnpm-lock.yaml
-
-
-# Node.js dependencies
-node_modules/
-
-# Logs
-*.log
-
-# OS files
-.DS_Store
-Thumbs.db
-
-# Next.js build
-.next/
-
-# TypeScript build
-dist/
-
-# Environment variables
 .env
-
-# Optional: lock files, if you don't want to version them
-# package-lock.json
-# yarn.lock
+.env.local
